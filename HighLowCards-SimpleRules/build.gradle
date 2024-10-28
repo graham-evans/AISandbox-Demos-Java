@@ -28,6 +28,12 @@ application {
     mainClass = 'dev.aisandbox.demo.highlowcards.simple.Launch'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
+
 repositories {
     mavenCentral()
 }
