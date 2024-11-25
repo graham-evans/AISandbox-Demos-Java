@@ -1,7 +1,7 @@
 package dev.aisandbox.demo.highlowcards.simple;
 
-import dev.aisandbox.server.simulation.highlowcards.proto.ClientAction;
-import dev.aisandbox.server.simulation.highlowcards.proto.PlayState;
+import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardAction;
+import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardsState;
 import dev.aisandbox.server.simulation.highlowcards.proto.Signal;
 
 import java.io.IOException;
@@ -28,13 +28,13 @@ public class Launch {
             OutputStream outputStream = clientSocket.getOutputStream();
             InputStream inputStream = clientSocket.getInputStream();
             // read the simulation state
-            PlayState state = PlayState.parseDelimitedFrom(inputStream);
+            HighLowCardsState state = HighLowCardsState.parseDelimitedFrom(inputStream);
             // write current card to screen
             System.out.println(String.join(":", state.getDeltCardList()));
             // does the server want a prediction
             if (state.getSignal().equals(Signal.PLAY)) {
                 // guess the next card
-                ClientAction action = ClientAction.newBuilder()
+                HighLowCardAction action = HighLowCardAction.newBuilder()
                         .setAction(random.nextBoolean() ? HIGH : LOW)
                         .build();
                 // send this to the server
