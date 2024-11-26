@@ -32,8 +32,8 @@ public class Launch {
                 HighLowCardsState state = HighLowCardsState.parseDelimitedFrom(inputStream);
                 if (state != null) {
                     // write current card to screen
-                    System.out.println("Got state with " + state.getDeltCardList().size() + " cards");
-                    System.out.println(String.join(":", state.getDeltCardList()));
+                    System.out.println("Got state with " + state.getDealtCardList().size() + " cards");
+                    System.out.println(String.join(":", state.getDealtCardList()));
                     // does the server want a prediction
                     if (state.getSignal().equals(Signal.PLAY)) {
                         // guess the next card
