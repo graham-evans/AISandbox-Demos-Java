@@ -1,8 +1,8 @@
 package dev.aisandbox.demo.highlowcards.random;
 
-import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardAction;
+import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardsAction;
+import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardsReward;
 import dev.aisandbox.server.simulation.highlowcards.proto.HighLowCardsState;
-import dev.aisandbox.server.simulation.highlowcards.proto.Signal;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,16 +34,14 @@ public class Launch {
                     // write current card to screen
                     System.out.println("Got state with " + state.getDealtCardList().size() + " cards");
                     System.out.println(String.join(":", state.getDealtCardList()));
-                    // does the server want a prediction
-                    if (state.getSignal().equals(Signal.PLAY)) {
-                        // guess the next card
-                        HighLowCardAction action = HighLowCardAction.newBuilder()
-                                .setAction(random.nextBoolean() ? HIGH : LOW)
-                                .build();
-                        // send this to the server
-                        action.writeDelimitedTo(outputStream);
-
-                    }
+                    // guess the next card
+                    HighLowCardsAction action = HighLowCardsAction.newBuilder()
+                            .setAction(random.nextBoolean() ? HIGH : LOW)
+                            .build();
+                    // send this to the server
+                    action.writeDelimitedTo(outputStream);
+                    // read the result
+                    HighLowCardsReward reward = HighLowCardsReward.parseDelimitedFrom(inputStream);
                 } else {
                     System.err.println("Server finished - closing connection");
                     clientSocket.close();
