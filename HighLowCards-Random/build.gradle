@@ -25,7 +25,7 @@ protobuf {
 }
 
 application {
-    mainClass = 'dev.aisandbox.demo.highlowcards.simple.Launch'
+    mainClass = 'dev.aisandbox.demo.highlowcards.random.Launch'
 }
 
 repositories {

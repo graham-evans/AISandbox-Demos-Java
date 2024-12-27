@@ -1,2 +1,3 @@
 rootProject.name = 'AISandbox-Demos'
 include 'HighLowCards-SimpleRules'
+include 'HighLowCards-Random'
