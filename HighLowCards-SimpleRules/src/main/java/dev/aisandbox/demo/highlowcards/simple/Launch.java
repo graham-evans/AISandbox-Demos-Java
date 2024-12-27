@@ -1,8 +1,7 @@
 package dev.aisandbox.demo.highlowcards.simple;
 
 import dev.aisandbox.server.simulation.highlowcards.proto.ClientAction;
-import dev.aisandbox.server.simulation.highlowcards.proto.HighLowChoice;
-import dev.aisandbox.server.simulation.highlowcards.proto.ServerState;
+import dev.aisandbox.server.simulation.highlowcards.proto.PlayState;
 import dev.aisandbox.server.simulation.highlowcards.proto.Signal;
 
 import java.io.IOException;
@@ -16,30 +15,27 @@ import static dev.aisandbox.server.simulation.highlowcards.proto.HighLowChoice.L
 
 /**
  * Play the High Low game based on a few simple rules
- *
  */
-public class Launch
-{
+public class Launch {
     private static Random random = new Random();
 
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
         try {
             // connect to localhost:9000
             System.out.println("Connecting to server on port 9000");
-            Socket clientSocket = new Socket("localhost",9000);
+            Socket clientSocket = new Socket("localhost", 9000);
             // create input and output streams
             OutputStream outputStream = clientSocket.getOutputStream();
             InputStream inputStream = clientSocket.getInputStream();
             // read the simulation state
-            ServerState state = ServerState.parseDelimitedFrom(inputStream);
+            PlayState state = PlayState.parseDelimitedFrom(inputStream);
             // write current card to screen
-            System.out.println(String.join(":",state.getDeltCardList()));
+            System.out.println(String.join(":", state.getDeltCardList()));
             // does the server want a prediction
             if (state.getSignal().equals(Signal.PLAY)) {
                 // guess the next card
                 ClientAction action = ClientAction.newBuilder()
-                        .setAction(random.nextBoolean()?HIGH:LOW)
+                        .setAction(random.nextBoolean() ? HIGH : LOW)
                         .build();
                 // send this to the server
                 action.writeDelimitedTo(outputStream);
