@@ -20,10 +20,19 @@ public class Launch {
     private static Random random = new Random();
 
     public static void main(String[] args) {
+        // Work out the port to connect to - defaults to localhost:9000
+        String host = "localhost";
+        int port = 9000;
+        if (args.length == 1) {
+            port = Integer.parseInt(args[0]);
+        }
+        if (args.length == 2) {
+            host = args[0];
+            port = Integer.parseInt(args[1]);
+        }
+        System.out.println("Connecting to server on " + host + ":" + port);
         try {
-            // connect to localhost:9000
-            System.out.println("Connecting to server on port 9000");
-            Socket clientSocket = new Socket("localhost", 9000);
+            Socket clientSocket = new Socket(host, port);
             // create input and output streams
             OutputStream outputStream = clientSocket.getOutputStream();
             InputStream inputStream = clientSocket.getInputStream();
@@ -40,6 +49,7 @@ public class Launch {
                             .build();
                     // send this to the server
                     action.writeDelimitedTo(outputStream);
+                    outputStream.flush();
                     // read the result
                     HighLowCardsReward reward = HighLowCardsReward.parseDelimitedFrom(inputStream);
                 } else {
@@ -50,6 +60,7 @@ public class Launch {
             }
         } catch (IOException e) {
             System.err.println("Error talking to server");
+            System.err.println(e.getMessage());
             System.exit(1);
         }
     }
