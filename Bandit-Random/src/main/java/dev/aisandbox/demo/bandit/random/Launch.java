@@ -49,6 +49,7 @@ public class Launch {
           outputStream.flush();
           // read the result
           BanditResult result = BanditResult.parseDelimitedFrom(inputStream);
+          System.out.println("Scored "+result.getScore());
         } else {
           System.err.println("Server finished - closing connection");
           clientSocket.close();

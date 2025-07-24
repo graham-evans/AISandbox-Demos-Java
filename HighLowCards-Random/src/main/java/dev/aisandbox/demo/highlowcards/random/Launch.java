@@ -52,6 +52,7 @@ public class Launch {
                     outputStream.flush();
                     // read the result
                     HighLowCardsReward reward = HighLowCardsReward.parseDelimitedFrom(inputStream);
+                    System.out.println("Score: "+reward.getScore());
                 } else {
                     System.err.println("Server finished - closing connection");
                     clientSocket.close();
