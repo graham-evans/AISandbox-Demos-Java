@@ -1,0 +1,43 @@
+plugins {
+    id 'application'
+    id "com.google.protobuf" version "0.9.4"
+}
+
+def protobufVersion = '4.28.2'
+def protocVersion = protobufVersion
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+protobuf {
+    // Configure the protoc executable
+    protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
+    generateProtoTasks {
+        // all() returns the collection of all protoc tasks
+        all().configureEach { task ->
+            // Here you can configure the task
+        }
+    }
+
+}
+
+application {
+    mainClass = 'dev.aisandbox.demo.coingame.random.Launch'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+}
