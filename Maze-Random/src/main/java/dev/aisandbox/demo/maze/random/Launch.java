@@ -42,7 +42,7 @@ public class Launch {
           // write current card to screen
           System.out.println("Got state, position in maze is (" + state.getStartX()+","+state.getStartY()+")");
           // choose a random direction
-          MazeAction action = MazeAction.newBuilder().setDirectionValue(random.nextInt(Direction.values().length)).build();
+          MazeAction action = MazeAction.newBuilder().setDirectionValue(random.nextInt(4)).build();
           System.out.println("trying to move "+action.getDirection().name());
           // send this to the server
           action.writeDelimitedTo(outputStream);
