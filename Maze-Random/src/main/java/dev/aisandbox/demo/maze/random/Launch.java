@@ -32,6 +32,8 @@ public class Launch {
     System.out.println("Connecting to server on " + host + ":" + port);
     try {
       Socket clientSocket = new Socket(host, port);
+      // don't delay before ack'ing, removes delay with small packets
+      clientSocket.setTcpNoDelay(true);
       // create input and output streams
       OutputStream outputStream = clientSocket.getOutputStream();
       InputStream inputStream = clientSocket.getInputStream();
